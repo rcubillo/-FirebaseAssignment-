@@ -1,0 +1,28 @@
+
+/* Inserting a background picture to the body */
+body{
+    background-image: url("../Images/all.png");
+    background-repeat:no-repeat;
+    background-size:cover; 
+    
+}
+
+#tittle{
+    background-image: url("../Images/1.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+}
+
+#currentschedule{
+    background-image: url("../Images/2.jpg");
+    background-repeat:no-repeat;
+    background-size:cover; 
+    color: white;
+}
+
+#form{
+    background-image: url("../Images/3.jpg");
+    background-repeat:no-repeat;
+    background-size:cover; 
+    color:white;
+}
