@@ -30,14 +30,21 @@ $("#add-train-btn").on("click", function (event) {
   var trainDestination = $("#destination-input").val().trim();
   var trainTime = moment($("#traintime-input").val().trim(), "HH:mm").format("HH:mm");
   var trainFrecuency = $("#frecuency-input").val().trim();
-  // HW
-  firstTimeConverted = moment(trainTime, "hh:mm").subtract(1, "years");
+
+  //Mutates the original moment by subtracting time.
+  firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
+
   var currentTime = moment();
+
+  //To get the difference in minutes
   var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+  
+  //Getting the division remainder
   var tRemainder = diffTime % trainFrecuency;
   var minutesTillTrain = trainFrecuency - tRemainder;
+
   var nextTrain = moment().add(minutesTillTrain, "minutes");
-  var nextTrainFormatted = moment(nextTrain).format("hh:mm");
+  var nextTrainFormatted = moment(nextTrain).format("hh:mm a");
 
 
   // Creates local "temporary" object for holding employee data
@@ -47,8 +54,8 @@ $("#add-train-btn").on("click", function (event) {
     time: trainTime,
     frecuency: trainFrecuency,
     // hw
-    nextTrainFormatted: nextTrainFormatted,
-    minutesTillTrain: minutesTillTrain
+    trainFormatted: nextTrainFormatted,
+    tillTrain: minutesTillTrain
 
   };
 
@@ -61,8 +68,8 @@ $("#add-train-btn").on("click", function (event) {
   console.log("time" + newTrain.time);
   console.log("frecuency" + newTrain.frecuency);
   //hw
-  console.log("nexttrain" + newTrain.nextTrainFormatted);
-  console.log("mintill" + newTrain.minutesTillTrain);
+  console.log("nexttrain" + newTrain.trainFormatted);
+  console.log("mintill" + newTrain.tillTrain);
 
   alert("Train successfully added");
 
@@ -82,6 +89,9 @@ database.ref().on("child_added", function (childSnapshot) {
   var trainDestination = childSnapshot.val().destination;
   var trainTime = childSnapshot.val().time;
   var trainFrecuency = childSnapshot.val().frecuency;
+ //hw
+  var nextTrainFormatted = childSnapshot.val().trainFormatted;
+  var minutesTillTrain = childSnapshot.val().tillTrain;
 
   // Employee Info
   console.log(trainName);
@@ -89,24 +99,14 @@ database.ref().on("child_added", function (childSnapshot) {
   console.log(trainTime);
   console.log(trainFrecuency);
 
-//   // Prettify the employee start
-//   var empStartPretty = moment.unix(trainTime).format("HH:mm");
-
-//   // Calculate the months worked using hardcore math
-//   // To calculate the months worked
-//   var empMins = moment().diff(moment(trainTime, "HH:mm"), "minutes");
-//   console.log(empMins);
-
-//   //Calculate min away
-//   //var minAway = trainFrecuency - ;
-//   // console.log(empBilled);
-
   // Create the new row
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
     $("<td>").text(trainDestination),
-    $("<td>").text(trainTime),
-    $("<td>").text(trainFrecuency)
+    //$("<td>").text(trainTime),
+    $("<td>").text(trainFrecuency),
+    $("<td>").text(nextTrainFormatted),
+    $("<td>").text(minutesTillTrain)
   );
 
   // Append the new row to the table
