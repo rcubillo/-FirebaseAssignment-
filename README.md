@@ -1,4 +1,4 @@
-# -FirebaseAssignment-
+# FirebaseAssignment
 
 ### Contributors
     •rcubillo
